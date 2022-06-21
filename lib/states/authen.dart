@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ungegat/utility/my_constant.dart';
+import 'package:ungegat/widgets/show_form.dart';
 import 'package:ungegat/widgets/show_image.dart';
 import 'package:ungegat/widgets/show_text.dart';
 
@@ -12,10 +13,21 @@ class Authen extends StatelessWidget {
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints boxConstraints) {
         return Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               newLogo(boxConstraints),
-              ShowText(text: 'Login :', textStyle: MyConstant().h1Style(),),
+              newTitle(),
+              formUser(boxConstraints),
+              Container(width: boxConstraints.maxWidth*0.6,
+              height: 40,
+              margin: const EdgeInsets.only(top: 16),
+                child: ShowForm(
+                  hint: 'password:',
+                  iconData: Icons.key,
+                  changeFung: (String String) {},
+                ),
+              ),
             ],
           ),
         );
@@ -23,10 +35,30 @@ class Authen extends StatelessWidget {
     );
   }
 
+  Container formUser(BoxConstraints boxConstraints) {
+    return Container(
+      margin: const EdgeInsets.only(top: 22),
+      width: boxConstraints.maxWidth * 0.6,
+      height: 40,
+      child: ShowForm(
+        hint: 'User:',
+        iconData: Icons.person_add,
+        changeFung: (String string) {},
+      ),
+    );
+  }
+
+  ShowText newTitle() {
+    return ShowText(
+      text: 'Login :',
+      textStyle: MyConstant().h1Style(),
+    );
+  }
+
   SizedBox newLogo(BoxConstraints boxConstraints) {
     return SizedBox(
-        width: boxConstraints.maxWidth * 0.25,
-        child: ShowImage(),
-      );
+      width: boxConstraints.maxWidth * 0.30,
+      child: ShowImage(),
+    );
   }
 }
