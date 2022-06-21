@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_print, non_constant_identifier_names, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:ungegat/utility/my_constant.dart';
+import 'package:ungegat/utility/my_dialog.dart';
 import 'package:ungegat/widgets/show_button.dart';
 import 'package:ungegat/widgets/show_form.dart';
 import 'package:ungegat/widgets/show_image.dart';
@@ -14,6 +17,7 @@ class Authen extends StatefulWidget {
 
 class _AuthenState extends State<Authen> {
   bool redEye = true;
+  String? user, password;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +55,17 @@ class _AuthenState extends State<Authen> {
       margin: const EdgeInsets.only(top: 16),
       child: ShowButton(
         lebel: 'Login',
-        pressFunc: () {},
+        pressFunc: () {
+          print('user = $user,password = $password');
+
+          if ((user?.isEmpty ?? true) || (password?.isEmpty ?? true)) {
+            print('Have Space');
+            MyDialog(context: context).normalDialog(
+                title: 'Have Space ?', subtitle: 'Please Fill Every Blank');
+          } else {
+            print('No Space');
+          }
+        },
       ),
     );
   }
@@ -70,7 +84,9 @@ class _AuthenState extends State<Authen> {
         obSecu: redEye,
         hint: 'password',
         iconData: Icons.key,
-        changeFung: (String String) {},
+        changeFung: (String String) {
+          password = String.trim();
+        },
       ),
     );
   }
@@ -83,7 +99,9 @@ class _AuthenState extends State<Authen> {
       child: ShowForm(
         hint: 'User',
         iconData: Icons.person_add,
-        changeFung: (String string) {},
+        changeFung: (String string) {
+          user = string.trim();
+        },
       ),
     );
   }
