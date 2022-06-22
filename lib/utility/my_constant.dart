@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MyConstant {
   // Field
-  static Color primary = Color.fromARGB(255, 177, 0, 0);
+  static Color primary = Color.fromARGB(255, 87, 0, 114);
   static Color dark = Colors.black;
-  static Color active = Color.fromARGB(255, 7, 255, 243);
+  static Color active = Color.fromARGB(255, 206, 0, 0);
 
   // Method
 
@@ -14,7 +14,7 @@ class MyConstant {
       gradient: RadialGradient(
         radius: 1.5,
         center: Alignment(-0.3, -0.3),
-        colors: [Colors.yellow, primary],
+        colors: [Color.fromARGB(255, 219, 99, 235), primary],
       ),
     );
   }
@@ -38,8 +38,18 @@ class MyConstant {
   TextStyle h3Style() {
     return GoogleFonts.mali(
       textStyle: TextStyle(
-        fontSize: 10,
+        fontSize: 14,
         color: dark,
+        fontWeight: FontWeight.normal,
+      ),
+    );
+  }
+
+  TextStyle h3active() {
+    return GoogleFonts.mali(
+      textStyle: TextStyle(
+        fontSize: 14,
+        color: active,
         fontWeight: FontWeight.normal,
       ),
     );

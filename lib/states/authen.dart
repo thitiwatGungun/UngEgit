@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, non_constant_identifier_names, prefer_const_constructors
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ungegat/utility/my_constant.dart';
 import 'package:ungegat/utility/my_dialog.dart';
@@ -64,6 +65,7 @@ class _AuthenState extends State<Authen> {
                 title: 'Have Space ?', subtitle: 'Please Fill Every Blank');
           } else {
             print('No Space');
+            processCheckLogin();
           }
         },
       ),
@@ -132,5 +134,14 @@ class _AuthenState extends State<Authen> {
         ],
       ),
     );
+  }
+
+  Future<void> processCheckLogin() async {
+    String path =
+        'https://www.androidthai.in.th/egat/getUserWhereUserKYI.php?isAdd=true&user=$user';
+
+    await Dio().get(path).then((value) {
+      print('value ==> $value');
+    });
   }
 }
