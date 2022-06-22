@@ -1,7 +1,11 @@
-// ignore_for_file: avoid_print, non_constant_identifier_names, prefer_const_constructors
+// ignore_for_file: avoid_print, non_constant_identifier_names, prefer_const_constructors, unused_local_variable
+
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:ungegat/models/user_medel.dart';
+import 'package:ungegat/states/my_service.dart';
 import 'package:ungegat/utility/my_constant.dart';
 import 'package:ungegat/utility/my_dialog.dart';
 import 'package:ungegat/widgets/show_button.dart';
@@ -142,6 +146,34 @@ class _AuthenState extends State<Authen> {
 
     await Dio().get(path).then((value) {
       print('value ==> $value');
+
+      if (value.toString() == 'null') {
+        MyDialog(context: context).normalDialog(
+            title: 'User False', subtitle: 'No $user in my Database');
+      } else {
+        var result = json.decode(value.data);
+
+        print('result ==> $result');
+        for (var element in result) {
+          UserModel userModel = UserModel.fromMap(element);
+          if (password == userModel.password) {
+            MyDialog(context: context).normalDialog(label: 'Go To Service',
+                PressFunc: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyService(),
+                      ),
+                      (route) => false);
+                },
+                title: 'Welcome to App',
+                subtitle: 'Login Success Welcome ${userModel.name}');
+          } else {
+            MyDialog(context: context).normalDialog(
+                title: 'Password False', subtitle: 'Please Try Again');
+          }
+        }
+      }
     });
   }
 }
