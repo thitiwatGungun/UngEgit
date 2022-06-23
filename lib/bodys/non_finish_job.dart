@@ -1,14 +1,66 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:ungegat/utility/my_constant.dart';
+
 import 'package:ungegat/widgets/show_text.dart';
 
+class NonFinishJob extends StatefulWidget {
+  final List<String> dataUserLogins;
+  const NonFinishJob({
+    Key? key,
+    required this.dataUserLogins,
+  }) : super(key: key);
 
-class NonFinishJob extends StatelessWidget {
-  const NonFinishJob({Key? key}) : super(key: key);
+  @override
+  State<NonFinishJob> createState() => _NonFinishJobState();
+}
+
+class _NonFinishJobState extends State<NonFinishJob> {
+  var dataUserLogin = <String>[];
+
+  @override
+  void initState() {
+    super.initState();
+    dataUserLogin = widget.dataUserLogins;
+    readDatajob();
+  }
+
+  Future<void> readDatajob() async {
+    String path = 'https://www.androidthai.in.th/egat/getUserWhereidOfficeKYI.php?isAdd=true&idOfficer=$idOffecer';
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ShowText(text: 'This is non FinishJob',);
+    return Column(
+      children: [
+        showTitle(head: 'ชื่อพนักงาน :', value: dataUserLogin[1]),
+        showTitle(head: 'ตำแหน่ง :', value: dataUserLogin[2])
+      ],
+    );
+  }
+
+  Card showTitle({required String head, required String value}) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: ShowText(
+                text: head,
+                textStyle: MyConstant().h2Style(),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: ShowText(text: value),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

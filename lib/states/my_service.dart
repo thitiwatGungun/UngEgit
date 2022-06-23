@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ungegat/bodys/finish_job.dart';
@@ -5,6 +7,7 @@ import 'package:ungegat/bodys/non_finish_job.dart';
 import 'package:ungegat/utility/my_constant.dart';
 import 'package:ungegat/utility/my_dialog.dart';
 import 'package:ungegat/widgets/show_icon_button.dart';
+import 'package:ungegat/widgets/show_progess.dart';
 import 'package:ungegat/widgets/show_text.dart';
 
 class MyService extends StatefulWidget {
@@ -17,17 +20,28 @@ class MyService extends StatefulWidget {
 class _MyServiceState extends State<MyService> {
   var titles = <String>['Non Finish', 'Finish'];
   var iconDatas = <IconData>[Icons.close, Icons.done];
-  var widgets = <Widget>[
-    const NonFinishJob(),
-    const FinishJob(),
-  ];
+
+  var widgets = <Widget>[];
   var bottonNavigator = <BottomNavigationBarItem>[];
   var indexBodys = 0;
 
   @override
   void initState() {
     super.initState();
+    createNavBar();
+    ProcessFindUserLogin();
+  }
 
+  Future<void> ProcessFindUserLogin() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var dataLogins = preferences.getStringList('data');
+    print('dataLogin ==> $dataLogins');
+    widgets.add(NonFinishJob(dataUserLogins: dataLogins!));
+    widgets.add(FinishJob());
+    setState(() {});
+  }
+
+  void createNavBar() {
     for (var i = 0; i < titles.length; i++) {
       bottonNavigator.add(BottomNavigationBarItem(
         label: titles[i],
@@ -41,9 +55,9 @@ class _MyServiceState extends State<MyService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 159, 255, 188),
       appBar: newAppBar(context),
-      body: widgets[indexBodys],
+      body: widgets.isEmpty ? const ShowProgess() : widgets[indexBodys],
       bottomNavigationBar: BottomNavigationBar(
         items: bottonNavigator,
         onTap: (value) {
@@ -66,7 +80,7 @@ class _MyServiceState extends State<MyService> {
       ),
       elevation: 0,
       foregroundColor: MyConstant.dark,
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 31, 247, 114),
       actions: [
         ShowIconButton(
           iconData: Icons.exit_to_app,

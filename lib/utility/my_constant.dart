@@ -29,7 +29,7 @@ class MyConstant {
   TextStyle h2Style() {
     return GoogleFonts.mali(
         textStyle: TextStyle(
-      fontSize: 18,
+      fontSize: 16,
       color: dark,
       fontWeight: FontWeight.w700,
     ));
@@ -38,7 +38,7 @@ class MyConstant {
   TextStyle h3Style() {
     return GoogleFonts.mali(
       textStyle: TextStyle(
-        fontSize: 14,
+        fontSize: 16,
         color: dark,
         fontWeight: FontWeight.normal,
       ),
