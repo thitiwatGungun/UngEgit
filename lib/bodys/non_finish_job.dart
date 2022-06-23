@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ungegat/models/job_model.dart';
+import 'package:ungegat/states/detail.dart';
 import 'package:ungegat/utility/my_calculate.dart';
 import 'package:ungegat/utility/my_constant.dart';
 import 'package:ungegat/widgets/show_progess.dart';
@@ -69,11 +70,21 @@ class _NonFinishJobState extends State<NonFinishJob> {
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
                   itemCount: jobModels.length,
-                  itemBuilder: (context, index) => showTitle(
-                    head: 'Job:',
-                    value: jobModels[index].job,
-                    detail:
-                        MyCalculate().cutWord(word: jobModels[index].detail),
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Detail(jobModel: jobModels[index]),
+                          )).then((value) {});
+                    },
+                    child: showTitle(
+                      head: 'Job:',
+                      value: jobModels[index].job,
+                      detail:
+                          MyCalculate().cutWord(word: jobModels[index].detail),
+                    ),
                   ),
                 ),
         ],
@@ -104,7 +115,18 @@ class _NonFinishJobState extends State<NonFinishJob> {
                 ),
               ],
             ),
-            detail == null ? const SizedBox() : ShowText(text: detail),
+            detail == null
+                ? const SizedBox()
+                : Container(
+                    margin: const EdgeInsets.only(top: 8),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ShowText(text: detail),
+                    ),
+                  ),
           ],
         ),
       ),
