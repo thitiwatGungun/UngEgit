@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ungegat/models/job_model.dart';
+import 'package:ungegat/utility/my_calculate.dart';
 import 'package:ungegat/utility/my_constant.dart';
 import 'package:ungegat/widgets/show_progess.dart';
 
@@ -57,40 +58,53 @@ class _NonFinishJobState extends State<NonFinishJob> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        showTitle(head: 'ชื่อพนักงาน :', value: dataUserLogin[1]),
-        showTitle(head: 'ตำแหน่ง :', value: dataUserLogin[2]),
-        jobModels.isEmpty
-            ? const ShowProgess()
-            : ListView.builder(
-              shrinkWrap: true,
-              physics: const ScrollPhysics(),
-                itemCount: jobModels.length,
-                itemBuilder: (context, index) =>
-                    ShowText(text: jobModels[index].job),
-              ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          showTitle(head: 'ชื่อพนักงาน :', value: dataUserLogin[1]),
+          showTitle(head: 'ตำแหน่ง :', value: dataUserLogin[2]),
+          jobModels.isEmpty
+              ? const ShowProgess()
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  itemCount: jobModels.length,
+                  itemBuilder: (context, index) => showTitle(
+                    head: 'Job:',
+                    value: jobModels[index].job,
+                    detail:
+                        MyCalculate().cutWord(word: jobModels[index].detail),
+                  ),
+                ),
+        ],
+      ),
     );
   }
 
-  Card showTitle({required String head, required String value}) {
+  Card showTitle(
+      {required String head, required String value, String? detail}) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              flex: 1,
-              child: ShowText(
-                text: head,
-                textStyle: MyConstant().h2Style(),
-              ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: ShowText(
+                    text: head,
+                    textStyle: MyConstant().h2Style(),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: ShowText(text: value),
+                ),
+              ],
             ),
-            Expanded(
-              flex: 2,
-              child: ShowText(text: value),
-            ),
+            detail == null ? const SizedBox() : ShowText(text: detail),
           ],
         ),
       ),
