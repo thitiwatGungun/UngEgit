@@ -186,8 +186,17 @@ class _DetailState extends State<Detail> {
     map['file'] = await MultipartFile.fromFile(file!.path, filename: nameFile);
     FormData data = FormData.fromMap(map);
     await Dio().post(path, data: data).then(
-      (value) {
-        print('Upload Success');
+      (value) async {
+        String urlImage =
+            'https://www.androidthai.in.th/egat/userkyiimage/$nameFile';
+
+        print('Upload Success urlImage = $urlImage');
+
+        String pathAPI =
+            'https://www.androidthai.in.th/egat/editPathStatusWhereIduserkyi.php?isAdd=true&id=${jobModel!.id}&pathImage=$urlImage';
+        await Dio().get(pathAPI).then((value) {
+          Navigator.pop(context);
+        });
       },
     );
   }
