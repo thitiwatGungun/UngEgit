@@ -1,4 +1,4 @@
-package com.flutterthailand.ungegat
+package com.flutterthailand.userkyi
 
 import io.flutter.embedding.android.FlutterActivity
 
